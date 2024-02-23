@@ -3,14 +3,14 @@ import  React, {useEffect} from 'react';
 const User = React.memo(function({user, onRemove,onToggle,}) {
   const {name,email,id,active} = user
 
-  useEffect(() => {
-    console.log('설정됨')
-    console.log(user);
-    return() =>{
-      console.log('바뀌기 전');
-      console.log(user);
-    }
-  },[user])
+  // useEffect(() => {
+  //   console.log('설정됨')
+  //   console.log(user);
+  //   return() =>{
+  //     console.log('바뀌기 전');
+  //     console.log(user);
+  //   }
+  // },[user])
   return(
     <div>
       <b style={{color: active ? "green" : "" }} onClick={() => onToggle(id)}>{name}</b>, <span>{email}</span>

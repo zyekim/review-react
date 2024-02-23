@@ -1,8 +1,9 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef,useEffect, useCallback } from 'react';
 import CreateUser from './components/CreateUser.js'
 import UserList from './components/UserList.js'
+import Counter from './components/Counter.js'
 
 
 
@@ -53,26 +54,28 @@ function App() {
       email,
       active: false
     }
-    setUsers([...users, user])
+    setUsers(users => [...users, user])
     setInputs({
       name: '',
       email: ''
     })
     nextId.current += 1;
-  },[users,name,email])
+  },[name,email])
 
   const onRemove = useCallback((id) =>{
-    setUsers(users.filter(user => user.id !== id));
-  },[users])
+    setUsers(users => users.filter(user => user.id !== id));
+  },[])
 
   const onToggle = useCallback((id) => {
-    setUsers(users.map((user) => user.id === id ? {...user,active: !user.active} : user ))
-  },[users])
+    setUsers(users => users.map((user) => user.id === id ? {...user,active: !user.active} : user ))
+  },[])
 
   return (
     <div className="App">
       <CreateUser name={name} email={email} onChange={onChange} onSubmit={onSubmit}/>
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <br/>
+      <Counter />
     </div>
   )
 }
