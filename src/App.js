@@ -1,9 +1,10 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useState, useRef,useEffect, useCallback, useReducer, useMemo } from 'react';
+import React, { useRef, useCallback, useReducer, useState } from 'react';
 import CreateUser from './components/CreateUser.js'
 import UserList from './components/UserList.js'
 import Counter from './components/Counter.js';
+import useInput from './hook/useInput.js';
 
 const initialState = {
   inputs:{
@@ -33,14 +34,14 @@ const initialState = {
 }
 function reducer(state,action) {
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state,
-        inputs:{
-          ...state.inputs,
-          [action.name]: action.value
-        }
-      }
+    // case 'CHANGE_INPUT':
+    //   return {
+    //     ...state,
+    //     inputs:{
+    //       ...state.inputs,
+    //       [action.name]: action.value
+    //     }
+    //   }
     case 'CREATE_USER':
       return {
         inputs: initialState.inputs,
@@ -65,19 +66,23 @@ function reducer(state,action) {
 
 
 function App() {
+  const [{ name, email },onChange,reset] = useInput({
+    name: '',
+    email: '',
+  })
   const [state,dispatch] = useReducer(reducer,initialState);
   const nextId = useRef(4)
   const { users } = state;
-  const { name, email } = state.inputs;
+  // const { name, email } = state.inputs;
 
-  const onChange = useCallback(e =>{
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    })
-  },[]);
+  // const onChange = useCallback(e =>{
+  //   const { name, value } = e.target;
+  //   dispatch({
+  //     type: 'CHANGE_INPUT',
+  //     name,
+  //     value
+  //   })
+  // },[]);
 
 
   const onSubmit = useCallback(() =>{
@@ -90,7 +95,8 @@ function App() {
       }
     });
     nextId.current += 1;
-  },[ name,email ])
+    reset();
+  },[ name,email,reset ])
 
   const onToggle = useCallback( id =>{
     dispatch({
