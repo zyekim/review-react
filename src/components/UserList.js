@@ -1,7 +1,7 @@
 import  React, {useEffect} from 'react';
 
 const User = React.memo(function({user, onRemove,onToggle,}) {
-  const {name,email,id,active} = user
+  const {username,email,id,active} = user
 
   // useEffect(() => {
   //   console.log('설정됨')
@@ -13,7 +13,7 @@ const User = React.memo(function({user, onRemove,onToggle,}) {
   // },[user])
   return(
     <div>
-      <b style={{color: active ? "green" : "" }} onClick={() => onToggle(id)}>{name}</b>, <span>{email}</span>
+      <b style={{color: active ? "green" : "" }} onClick={() => onToggle(id)}>{username}</b>, <span>{email}</span>
       <button style={{ marginLeft: "10px", backgroundColor: "transparent", fontSize: "14px", padding: 0, border: 0,}} onClick={() => onRemove(id)}>🗑️</button>
     </div>
   )

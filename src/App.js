@@ -8,25 +8,25 @@ import useInput from './hook/useInput.js';
 
 const initialState = {
   inputs:{
-    name: '',
+    username: '',
     email: '',
   },
   users: [
     {
       id: 1,
-      name: 'velopert',
+      username: 'velopert',
       email: 'public.velopert@gmail.com',
       active: false,
     },
     {
       id: 2,
-      name: 'tester',
+      username: 'tester',
       email: 'tester@example.com',
       active: false,
     },
     {
       id: 3,
-      name: 'liz',
+      username: 'liz',
       email: 'liz@example.com',
       active: false,
     }
@@ -66,8 +66,8 @@ function reducer(state,action) {
 
 
 function App() {
-  const [{ name, email },onChange,reset] = useInput({
-    name: '',
+  const [{ username, email },onChange,reset] = useInput({
+    username: '',
     email: '',
   })
   const [state,dispatch] = useReducer(reducer,initialState);
@@ -90,13 +90,13 @@ function App() {
       type: 'CREATE_USER',
       user: {
         id: nextId.current,
-        name,
+        username,
         email
       }
     });
     nextId.current += 1;
     reset();
-  },[ name,email,reset ])
+  },[ username,email,reset ])
 
   const onToggle = useCallback( id =>{
     dispatch({
@@ -114,7 +114,7 @@ function App() {
 
   return (
     <div className="App">
-      <CreateUser name={name} email={email} onChange={onChange} onSubmit={onSubmit}/>
+      <CreateUser username={username} email={email} onChange={onChange} onSubmit={onSubmit}/>
       <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
       <br/>
       <Counter />
