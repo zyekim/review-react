@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useRef, useCallback, useReducer, useState } from 'react';
+import React, { useRef, useCallback, useReducer, createContext } from 'react';
 import CreateUser from './components/CreateUser.js'
 import UserList from './components/UserList.js'
 import Counter from './components/Counter.js';
@@ -34,6 +34,7 @@ const initialState = {
 }
 function reducer(state,action) {
   switch (action.type) {
+    // [custom Hook]
     // case 'CHANGE_INPUT':
     //   return {
     //     ...state,
@@ -64,6 +65,8 @@ function reducer(state,action) {
   }
 }
 
+// context API
+export const UserDispatch = createContext(null);
 
 function App() {
   const [{ username, email },onChange,reset] = useInput({
@@ -73,6 +76,7 @@ function App() {
   const [state,dispatch] = useReducer(reducer,initialState);
   const nextId = useRef(4)
   const { users } = state;
+  // [custom Hook]
   // const { name, email } = state.inputs;
 
   // const onChange = useCallback(e =>{
@@ -98,27 +102,35 @@ function App() {
     reset();
   },[ username,email,reset ])
 
-  const onToggle = useCallback( id =>{
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    })
-  },[]);
+  // [context API]
+  // const onToggle = useCallback( id =>{
+  //   dispatch({
+  //     type: 'TOGGLE_USER',
+  //     id
+  //   })
+  // },[]);
 
-  const onRemove = useCallback( id =>{
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    })
-  },[]);
+  // const onRemove = useCallback( id =>{
+  //   dispatch({
+  //     type: 'REMOVE_USER',
+  //     id
+  //   })
+  // },[]);
 
   return (
-    <div className="App">
-      <CreateUser username={username} email={email} onChange={onChange} onSubmit={onSubmit}/>
-      <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
-      <br/>
-      <Counter />
-    </div>
+    <UserDispatch.Provider value={ dispatch }>
+      <div className="App">
+        <CreateUser
+          username={username}
+          email={email}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        />
+        <UserList users={users}/>
+        <br/>
+        <Counter />
+      </div>
+    </UserDispatch.Provider>
   )
 }
 

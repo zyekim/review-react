@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 
-export default function Counter() {
+function Counter() {
   // const [number, setNumber] = useState(0);
 
   function reducer(state,action) {
@@ -37,3 +37,5 @@ export default function Counter() {
 
   )
 }
+
+export default React.memo(Counter);
