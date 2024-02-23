@@ -1,6 +1,6 @@
 // custom hook
 
-import {useCallback, useState, useReducer} from 'react'
+import {useCallback, useReducer} from 'react'
 
 
 function reducer(state,action){
@@ -20,7 +20,6 @@ function reducer(state,action){
 
 function useInput(initialForm) {
   // const [form, setForm] = useState(initialForm);
-  console.log(initialForm);
   const [form, dispatch] = useReducer(reducer, initialForm);
 
   const onChange = useCallback( e =>{

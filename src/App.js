@@ -4,7 +4,7 @@ import React, { useRef, useCallback, useReducer, createContext } from 'react';
 import CreateUser from './components/CreateUser.js'
 import UserList from './components/UserList.js'
 import Counter from './components/Counter.js';
-import useInput from './hook/useInput.js';
+
 
 const initialState = {
   inputs:{
@@ -69,16 +69,18 @@ function reducer(state,action) {
 export const UserDispatch = createContext(null);
 
 function App() {
-  const [{ username, email },onChange,reset] = useInput({
-    username: '',
-    email: '',
-  })
+  // [context API]
+  // const [{ username, email },onChange,reset] = useInput({
+  //   username: '',
+  //   email: '',
+  // })
+  // const nextId = useRef(4);
   const [state,dispatch] = useReducer(reducer,initialState);
-  const nextId = useRef(4)
   const { users } = state;
   // [custom Hook]
   // const { name, email } = state.inputs;
 
+  // [context API]
   // const onChange = useCallback(e =>{
   //   const { name, value } = e.target;
   //   dispatch({
@@ -89,18 +91,18 @@ function App() {
   // },[]);
 
 
-  const onSubmit = useCallback(() =>{
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    nextId.current += 1;
-    reset();
-  },[ username,email,reset ])
+  // const onSubmit = useCallback(() =>{
+  //   dispatch({
+  //     type: 'CREATE_USER',
+  //     user: {
+  //       id: nextId.current,
+  //       username,
+  //       email
+  //     }
+  //   });
+  //   nextId.current += 1;
+  //   reset();
+  // },[ username,email,reset ])
 
   // [context API]
   // const onToggle = useCallback( id =>{
@@ -120,12 +122,7 @@ function App() {
   return (
     <UserDispatch.Provider value={ dispatch }>
       <div className="App">
-        <CreateUser
-          username={username}
-          email={email}
-          onChange={onChange}
-          onSubmit={onSubmit}
-        />
+        <CreateUser/>
         <UserList users={users}/>
         <br/>
         <Counter />
